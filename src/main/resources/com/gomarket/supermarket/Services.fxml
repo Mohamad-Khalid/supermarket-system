@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gomarket.supermarket.controllers.ServiceController">
+   <children>
+      <Pane prefHeight="570.0" prefWidth="580.0">
+         <children>
+            <Pane prefHeight="170.0" prefWidth="580.0">
+               <children>
+                  <ImageView fitHeight="62.0" fitWidth="53.0" layoutX="-4.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/back.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="btnBack" layoutX="3.0" layoutY="94.0" mnemonicParsing="false" onAction="#goBack" prefHeight="53.0" prefWidth="53.0" style="-fx-background-color: none; -fx-cursor: HAND;">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <TextField fx:id="txtSearchedName" layoutX="52.0" layoutY="93.0" onKeyTyped="#search" prefHeight="62.0" prefWidth="219.0" promptText="Enter Name">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fitHeight="53.0" fitWidth="64.0" layoutX="220.0" layoutY="97.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/search.png" />
+                     </image>
+                  </ImageView>
+                  <Pane prefHeight="73.0" prefWidth="564.0" style="-fx-background-color: #7952B3;">
+                     <children>
+                        <Label layoutX="242.0" layoutY="6.0" prefHeight="62.0" prefWidth="80.0" text="Buy" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                     </children></Pane>
+                  <Button layoutX="341.0" layoutY="93.0" mnemonicParsing="false" onAction="#refreshServicePage" prefHeight="62.0" prefWidth="219.0" text="Refresh">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </Pane>
+            <TextField fx:id="txtPrice" editable="false" layoutX="341.0" layoutY="172.0" prefHeight="62.0" prefWidth="219.0" promptText="Price">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="txtDiscount" editable="false" layoutX="341.0" layoutY="250.0" prefHeight="62.0" prefWidth="219.0" promptText="Discount">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="txtNumber" layoutX="341.0" layoutY="328.0" onKeyReleased="#calculateTotal" onKeyTyped="#preventCharInput" prefHeight="62.0" prefWidth="219.0" promptText="Number of items">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnBuy" layoutX="341.0" layoutY="477.0" mnemonicParsing="false" onAction="#buy" prefHeight="62.0" prefWidth="219.0" text="Buy">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TextField fx:id="txtTotal" editable="false" layoutX="341.0" layoutY="402.0" prefHeight="62.0" prefWidth="219.0" promptText="Total">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <Label layoutX="276.0" layoutY="400.0" prefHeight="62.0" prefWidth="66.0" text="Total">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="276.0" layoutY="326.0" prefHeight="62.0" prefWidth="73.0" text="Quantity">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="276.0" layoutY="248.0" prefHeight="62.0" prefWidth="73.0" text="Discount">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="279.0" layoutY="171.0" prefHeight="62.0" prefWidth="51.0" text="Price">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TableView fx:id="prodTable" layoutX="52.0" layoutY="173.0" onMouseClicked="#clickTable" prefHeight="365.0" prefWidth="219.0">
+               <columns>
+                  <TableColumn fx:id="colProd" prefWidth="215.00001525878906" text="Products" />
+               </columns>
+            </TableView>
+            <Label fx:id="txtWarning" layoutX="342.0" layoutY="311.0" prefHeight="17.0" prefWidth="219.0" textFill="RED" />
+         </children></Pane>
+      <Pane layoutX="529.0" layoutY="-1.0" prefHeight="570.0" prefWidth="401.0">
+         <children>
+            <TextArea fx:id="bill" layoutX="59.0" layoutY="172.0" prefHeight="268.0" prefWidth="315.0" style="-fx-background-color: white;">
+               <font>
+                  <Font size="18.0" />
+               </font></TextArea>
+            <Label layoutX="183.0" layoutY="93.0" prefHeight="53.0" prefWidth="80.0" text="Bill">
+               <font>
+                  <Font name="System Italic" size="36.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnPrint" layoutX="114.0" layoutY="479.0" mnemonicParsing="false" onAction="#printBillContent" prefHeight="62.0" prefWidth="219.0" text="Print">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children></Pane>
+   </children>
+</AnchorPane>

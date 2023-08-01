@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gomarket.supermarket.controllers.LoginFormController">
+   <children>
+      <Pane prefHeight="449.0" prefWidth="304.0">
+         <children>
+            <Label layoutX="79.0" layoutY="270.0" prefHeight="29.0" prefWidth="178.0" text="Go Market" textFill="#0989f3">
+               <font>
+                  <Font name="System Bold Italic" size="36.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="165.0" fitWidth="252.0" layoutX="82.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" styleClass="Images/logo.png">
+               <image>
+                  <Image url="@../../../Images/logo.png" />
+               </image></ImageView>
+            <Button layoutX="88.0" layoutY="24.0" mnemonicParsing="false" style="-fx-background-color: none;" />
+
+         </children>
+      </Pane>
+      <Pane layoutX="332.0" layoutY="33.0" prefHeight="348.0" prefWidth="368.0" style="-fx-background-color: white;">
+         <children>
+            <TextField fx:id="txtUSER" layoutX="19.0" layoutY="33.0" prefHeight="60.0" prefWidth="320.0" promptText="Username">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <PasswordField fx:id="txtPASS" layoutX="19.0" layoutY="114.0" prefHeight="60.0" prefWidth="320.0" promptText="Password">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </PasswordField>
+            <Label fx:id="lblMSG" layoutX="22.0" layoutY="174.0" prefHeight="34.0" prefWidth="313.0" textFill="RED">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <Button fx:id="btnLOGIN" layoutX="19.0" layoutY="211.0" mnemonicParsing="false" onAction="#isSignedUP" prefHeight="51.0" prefWidth="320.0" text="Login">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
+            <Button fx:id="btnSIGNUP" layoutX="19.0" layoutY="273.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="320.0" text="Sign up">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

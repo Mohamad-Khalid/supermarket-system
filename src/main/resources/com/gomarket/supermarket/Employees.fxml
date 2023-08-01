@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gomarket.supermarket.controllers.EmployeeController">
+
+    <children>
+        <Pane prefHeight="571.0" prefWidth="263.0">
+            <children>
+                <Pane prefHeight="53.0" prefWidth="263.0" style="-fx-background-color: #7952B3;">
+                    <children>
+                        <Label layoutX="26.0" prefHeight="53.0" prefWidth="237.0" text="Employees" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="30.0" />
+                            </font>
+                        </Label>
+                  <Button layoutY="2.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="263.0" style="-fx-background-color: none;" />
+                    </children>
+                </Pane>
+                <TextField fx:id="txtEName" layoutX="57.0" layoutY="59.0" prefHeight="40.0" prefWidth="200.0" promptText=" Enter  Name ">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="txtENumber" layoutX="57.0" layoutY="117.0" onKeyTyped="#preventCharInput" prefHeight="40.0" prefWidth="200.0" promptText="Phone Number">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="txtESalary" layoutX="57.0" layoutY="175.0" onKeyTyped="#preventNonDoubleInput" prefHeight="40.0" prefWidth="200.0" promptText=" Enter  Salary">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </TextField>
+            <ComboBox fx:id="txtECity" layoutX="55.0" layoutY="239.0" prefHeight="51.0" prefWidth="200.0" promptText="City" />
+            <DatePicker fx:id="txtEDate" editable="false" layoutX="55.0" layoutY="301.0" prefHeight="44.0" prefWidth="200.0" promptText="Join Date" />
+                <Button fx:id="btnAdd" layoutX="56.0" layoutY="358.0" mnemonicParsing="false" onAction="#addEmployee" prefHeight="53.0" prefWidth="200.0" style="-fx-background-color: #277ef7;" text="ADD" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+                </Button>
+                <Button fx:id="btnDelete" layoutX="58.0" layoutY="494.0" mnemonicParsing="false" onAction="#deleteEmployee" prefHeight="51.0" prefWidth="200.0" style="-fx-background-color: #f21d2e;" text="Delete" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+                </Button>
+                <Button fx:id="btnUpdate" layoutX="55.0" layoutY="423.0" mnemonicParsing="false" onAction="#updateEmployee" prefHeight="53.0" prefWidth="200.0" style="-fx-background-color: #f4b609;" text="Update">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+                </Button>
+            <Label layoutX="6.0" layoutY="63.0" prefHeight="44.0" prefWidth="47.0" text="Name">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="5.0" layoutY="116.0" prefHeight="51.0" prefWidth="47.0" text="Phone">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <Label layoutX="5.0" layoutY="175.0" prefHeight="51.0" prefWidth="47.0" text="Salary">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="5.0" layoutY="240.0" prefHeight="51.0" prefWidth="39.0" text="City">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="7.0" layoutY="301.0" prefHeight="44.0" prefWidth="39.0" text="Date">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            </children>
+        </Pane>
+        <BorderPane layoutX="263.0" prefHeight="571.0" prefWidth="693.0">
+            <top>
+                <Pane prefHeight="95.0" prefWidth="531.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <TextField fx:id="btnEnName" layoutX="161.0" layoutY="28.0" onKeyTyped="#search" prefHeight="53.0" prefWidth="283.0" promptText="Enter Name">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </TextField>
+                        <ImageView fitHeight="51.0" fitWidth="66.0" layoutX="77.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../Images/back.png" />
+                            </image>
+                        </ImageView>
+                        <Button fx:id="btnBack" layoutX="76.0" layoutY="28.0" mnemonicParsing="false" onAction="#goBack" prefHeight="53.0" prefWidth="66.0" style="-fx-background-color: none; -fx-cursor: HAND;">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <ImageView fitHeight="53.0" fitWidth="64.0" layoutX="389.0" layoutY="28.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../Images/search.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+            </top>
+            <bottom>
+                <TableView fx:id="eTable" onMouseClicked="#selectEmployeeFromTable" prefHeight="455.0" prefWidth="693.0" BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="colID" prefWidth="86.60000610351562" text="ID" />
+                        <TableColumn fx:id="colName" prefWidth="109.79998779296875" text="Name" />
+                        <TableColumn fx:id="colNumber" prefWidth="133.0" text="Phone Number" />
+                        <TableColumn fx:id="colSalary" prefWidth="72.79998779296875" text="Salary" />
+                        <TableColumn fx:id="colCity" prefWidth="131.5999755859375" text="City" />
+                        <TableColumn fx:id="colDate" minWidth="2.79998779296875" prefWidth="157.60002441406255" text="Join Date" />
+                    </columns>
+                </TableView>
+            </bottom>
+        </BorderPane>
+    </children>
+
+</AnchorPane>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gomarket.supermarket.controllers.ProductController">
+   <children>
+      <Pane prefHeight="557.0" prefWidth="289.0">
+         <children>
+            <Pane prefHeight="53.0" prefWidth="279.0" style="-fx-background-color: #7952B3;">
+               <children>
+                  <Label layoutX="26.0" prefHeight="53.0" prefWidth="288.0" text="Products" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <Button layoutY="2.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="279.0" style="-fx-background-color: none;" />
+               </children>
+            </Pane>
+            <TextField fx:id="txtPName" layoutX="76.0" layoutY="59.0" prefHeight="51.0" prefWidth="200.0" promptText=" Enter  Name ">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="txtPNumber" layoutX="76.0" layoutY="117.0" onKeyTyped="#preventCharInput" prefHeight="40.0" prefWidth="200.0" promptText=" Enter  Number">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="txtPPrice" layoutX="76.0" layoutY="178.0" onKeyTyped="#preventNonDoubleInput" prefHeight="40.0" prefWidth="200.0" promptText=" Enter  Price">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="txtPDiscount" layoutX="76.0" layoutY="317.0" onKeyReleased="#preventInvalidDiscountValue" onKeyTyped="#preventCharInput" prefHeight="51.0" prefWidth="200.0" promptText="Discount">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnPAdd" layoutX="14.0" layoutY="388.0" mnemonicParsing="false" onAction="#add" prefHeight="51.0" prefWidth="262.0" style="-fx-background-color: #277ef7;" text="ADD" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btnPDelete" layoutX="14.0" layoutY="451.0" mnemonicParsing="false" onAction="#delete" prefHeight="51.0" prefWidth="114.0" style="-fx-background-color: #f21d2e;" text="Delete" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btnPUpdate" layoutX="153.0" layoutY="451.0" mnemonicParsing="false" onAction="#update" prefHeight="51.0" prefWidth="122.0" style="-fx-background-color: #f4b609;" text="Update">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ComboBox fx:id="txtPType" layoutX="75.0" layoutY="246.0" prefHeight="51.0" prefWidth="200.0" promptText="Select type" />
+            <Label layoutX="7.0" layoutY="59.0" prefHeight="51.0" prefWidth="62.0" text="Name" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="5.0" layoutY="117.0" prefHeight="51.0" prefWidth="69.0" text="Quantity">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="8.0" layoutY="184.0" prefHeight="39.0" prefWidth="52.0" text="Price">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label layoutX="10.0" layoutY="246.0" prefHeight="51.0" prefWidth="52.0" text="Type">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="4.0" layoutY="317.0" prefHeight="51.0" prefWidth="69.0" text="Discount">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <BorderPane layoutX="288.0" prefHeight="552.0" prefWidth="619.0">
+         <top>
+            <Pane prefHeight="95.0" prefWidth="531.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="btnEnName" layoutX="161.0" layoutY="28.0" onKeyTyped="#search" prefHeight="53.0" prefWidth="331.0" promptText="Enter Name">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fitHeight="51.0" fitWidth="66.0" layoutX="77.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/back.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="btnBack" layoutX="76.0" layoutY="28.0" mnemonicParsing="false" onAction="#goBack" prefHeight="53.0" prefWidth="66.0" style="-fx-background-color: none; -fx-cursor: HAND;">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <ImageView fitHeight="53.0" fitWidth="64.0" layoutX="437.0" layoutY="28.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/search.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </top>
+         <bottom>
+            <TableView fx:id="pTable" onMouseClicked="#selectProductFromTable" prefHeight="457.0" prefWidth="634.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="colID" prefWidth="85.79998779296875" text="ID" />
+                <TableColumn fx:id="colName" prefWidth="137.0" text="Name" />
+                  <TableColumn fx:id="colNumber" prefWidth="91.199951171875" text="Number" />
+                  <TableColumn fx:id="colPrice" prefWidth="82.20001220703125" text="Price" />
+                  <TableColumn fx:id="colType" minWidth="0.0" prefWidth="99.79998779296875" text="Type" />
+                  <TableColumn fx:id="colDiscount" prefWidth="120.99993896484375" text="Discount" />
+              </columns>
+            </TableView>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
