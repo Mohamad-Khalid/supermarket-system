@@ -7,18 +7,6 @@ import java.sql.*;
 
 public class EmployeeCRUD {
 
-    public static Employee fillEmployeeInfo(ResultSet resultSet) throws SQLException {
-        Employee employee = new Employee();
-        if(resultSet.next()){
-            employee.setId(resultSet.getInt("id"));
-            employee.setName(resultSet.getString("name"));
-            employee.setCity(resultSet.getString("city"));
-            employee.setSalary(resultSet.getDouble("salary"));
-            employee.setPhoneNumber(resultSet.getString("phoneNumber"));
-            employee.setJoinDate(resultSet.getDate("joinDate").toLocalDate());
-        }
-        return employee;
-    }
     public void insert(Employee employee){
         try {
             String sqlInsert = "insert into Employee values(?,?,?,?,?,?)";
@@ -89,10 +77,17 @@ public class EmployeeCRUD {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
         try {
             Statement statement = DBConnection.openDBConnection().createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM Employee");
-            while (results.next()){
-                Employee tempObj = fillEmployeeInfo(results);
-                employees.add(tempObj);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Employee");
+            while (resultSet.next()){
+                Employee employee = new Employee();
+                employee.setId(resultSet.getInt("id"));
+                employee.setName(resultSet.getString("name"));
+                employee.setCity(resultSet.getString("city"));
+                employee.setSalary(resultSet.getDouble("salary"));
+                employee.setPhoneNumber(resultSet.getString("phoneNumber"));
+                employee.setJoinDate(resultSet.getDate("joinDate").toLocalDate());
+
+                employees.add(employee);
             }
             DBConnection.closeDBConnection();
         }
@@ -107,10 +102,17 @@ public class EmployeeCRUD {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
         try {
             Statement statement = DBConnection.openDBConnection().createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM Employee WHERE name like '%"+name +"%'");
-            while (results.next()){
-                Employee tempObj = fillEmployeeInfo(results);
-                employees.add(tempObj);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Employee WHERE name like '%"+name +"%'");
+            while (resultSet.next()){
+                Employee employee = new Employee();
+                employee.setId(resultSet.getInt("id"));
+                employee.setName(resultSet.getString("name"));
+                employee.setCity(resultSet.getString("city"));
+                employee.setSalary(resultSet.getDouble("salary"));
+                employee.setPhoneNumber(resultSet.getString("phoneNumber"));
+                employee.setJoinDate(resultSet.getDate("joinDate").toLocalDate());
+
+                employees.add(employee);
             }
             DBConnection.closeDBConnection();
         }
