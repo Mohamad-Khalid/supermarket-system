@@ -21,7 +21,8 @@
 - `OOP`
 - `Model-view-Controller (MVC)`
 - `Singleton design pattern`
-- `CRUD Operations` 
+- `CRUD Operations`
+- `Single Responsibility Principle`
 - `Don't Repeat Yourself (DRY) Principle`
 
 ### Screenshots and demo
