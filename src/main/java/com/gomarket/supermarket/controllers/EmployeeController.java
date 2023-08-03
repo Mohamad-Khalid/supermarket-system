@@ -1,14 +1,13 @@
 package com.gomarket.supermarket.controllers;
 import com.gomarket.supermarket.models.BadInputBlocker;
-import com.gomarket.supermarket.models.EmployeeCRUD;
+import com.gomarket.supermarket.models.EmployeeRepository;
 import com.gomarket.supermarket.models.Employee;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.gomarket.supermarket.models.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -39,11 +38,11 @@ public class EmployeeController implements Initializable {
 
 
     BadInputBlocker badInputBlocker = new BadInputBlocker();
-
-    EmployeeCRUD employeeCRUD = new EmployeeCRUD();
+    Validator validator = new Validator();
+    EmployeeRepository employeeRepository = new EmployeeRepository();
+    DataSetter dataSetter = new DataSetter();
     int employeeID;
-    String [] cities = {"Cairo","Alex","Asuit"};
-    ObservableList olist = FXCollections.observableArrayList(cities);
+
 
     public void preventCharInput(){
         badInputBlocker.preventCharInput(txtENumber);
@@ -53,50 +52,36 @@ public class EmployeeController implements Initializable {
     }
 
     public void search(){
-        eTable.setItems(EmployeeCRUD.getSearchedEmployees(btnEnName.getText()));
+        eTable.setItems(EmployeeRepository.getSearchedEmployees(btnEnName.getText()));
     }
 
     public void addEmployee() throws ParseException {
-        Employee employee = new Employee();
-        if(badInputBlocker.notEmptyData(txtEDate,txtECity,txtEName,txtENumber,txtESalary)){
-            employee.setName(txtEName.getText());
-            employee.setPhoneNumber(txtENumber.getText());
-            employee.setSalary(Double.parseDouble(txtESalary.getText()));
-            employee.setCity(txtECity.getValue()+"");
-            employee.setJoinDate( txtEDate.getValue());
-            employeeCRUD.insert(employee);
-            eTable.setItems(employeeCRUD.getAllEmployees());
+        if(!validator.isEmptyData(txtEDate,txtECity,txtEName,txtENumber,txtESalary)){
+            Employee employee = dataSetter.setEmployeeData(txtECity,txtEDate,txtEName,txtENumber,txtESalary);
+            employeeRepository.insert(employee);
+            eTable.setItems(employeeRepository.getAllEmployees());
             Utility.clearForm(txtEName,txtENumber,txtESalary);
         }
     }
 
     public void updateEmployee(){
-        if(badInputBlocker.notEmptyData(txtEDate,txtECity,txtEName,txtENumber,txtESalary)){
-            Employee employee = new Employee();
-            employee.setName(txtEName.getText());
-            employee.setPhoneNumber(txtENumber.getText());
-            employee.setSalary(Double.parseDouble(txtESalary.getText()));
-            employee.setCity(txtECity.getValue()+"");
-            employee.setJoinDate(txtEDate.getValue());
+        if(!validator.isEmptyData(txtEDate,txtECity,txtEName,txtENumber,txtESalary)){
+            Employee employee = dataSetter.setEmployeeData(txtECity,txtEDate,txtEName,txtENumber,txtESalary);
             employee.setId(employeeID);
-            employeeCRUD.update(employee);
-            eTable.setItems(employeeCRUD.getAllEmployees());
+            employeeRepository.update(employee);
+            eTable.setItems(employeeRepository.getAllEmployees());
             Utility.clearForm(txtEName,txtENumber,txtESalary);
         }
     }
     public void deleteEmployee(){
-        employeeCRUD.delete(employeeID);
-        eTable.setItems(employeeCRUD.getAllEmployees());
+        employeeRepository.delete(employeeID);
+        eTable.setItems(employeeRepository.getAllEmployees());
         Utility.clearForm(txtEName,txtENumber,txtESalary);
     }
 
     public void selectEmployeeFromTable(){
         Employee employee = (Employee) eTable.getSelectionModel().getSelectedItem();
-        txtEName.setText(employee.getName());
-        txtENumber.setText( employee.getPhoneNumber()+"");
-        txtESalary.setText(employee.getSalary()+"");
-        txtECity.setValue(employee.getCity()+"");
-        txtEDate.setValue(  employee.getJoinDate());
+        dataSetter.setEmployeeForm(employee,txtECity,txtEDate,txtEName,txtENumber,txtESalary);
         employeeID = employee.getId();
     }
 
@@ -106,14 +91,9 @@ public class EmployeeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        txtECity.getItems().addAll(olist);
-        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        colCity.setCellValueFactory(new PropertyValueFactory<>("city"));
-        colDate.setCellValueFactory(new PropertyValueFactory<>("joinDate"));
-        eTable.setItems(employeeCRUD.getAllEmployees());
+        txtECity.getItems().addAll(dataSetter.setEmplooyeeCities());
+        dataSetter.setEmployeeTableColumns(colID,colName,colNumber,colSalary,colCity,colDate);
+        eTable.setItems(employeeRepository.getAllEmployees());
     }
 
 

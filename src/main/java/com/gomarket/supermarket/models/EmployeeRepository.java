@@ -1,11 +1,13 @@
 package com.gomarket.supermarket.models;
 
+import com.gomarket.supermarket.controllers.DataSetter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
-public class EmployeeCRUD {
+public class EmployeeRepository {
+    static DataSetter dataSetter = new DataSetter();
 
     public void insert(Employee employee){
         try {
@@ -58,17 +60,11 @@ public class EmployeeCRUD {
             String sqlDelete = "delete from Employee where id=?";
             PreparedStatement statement = DBConnection.openDBConnection().prepareStatement(sqlDelete);
             statement.setInt(1,id);
-            int rowsAffected = statement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Employee deleted successfully!");
-            } else {
-                System.out.println("Employee delete failed!");
-            }
-
+            statement.executeUpdate();
             DBConnection.closeDBConnection();
         }
-        catch (Exception e){
-            System.out.println(e);
+        catch (SQLException e){
+            e.printStackTrace();
         }
 
     }
@@ -79,20 +75,13 @@ public class EmployeeCRUD {
             Statement statement = DBConnection.openDBConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Employee");
             while (resultSet.next()){
-                Employee employee = new Employee();
-                employee.setId(resultSet.getInt("id"));
-                employee.setName(resultSet.getString("name"));
-                employee.setCity(resultSet.getString("city"));
-                employee.setSalary(resultSet.getDouble("salary"));
-                employee.setPhoneNumber(resultSet.getString("phoneNumber"));
-                employee.setJoinDate(resultSet.getDate("joinDate").toLocalDate());
-
+                Employee employee = dataSetter.setEmployeeData(resultSet);
                 employees.add(employee);
             }
             DBConnection.closeDBConnection();
         }
-        catch (Exception e){
-            System.out.println(e);
+        catch (SQLException e){
+            e.printStackTrace();
         }
 
         return  employees;
@@ -104,14 +93,7 @@ public class EmployeeCRUD {
             Statement statement = DBConnection.openDBConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Employee WHERE name like '%"+name +"%'");
             while (resultSet.next()){
-                Employee employee = new Employee();
-                employee.setId(resultSet.getInt("id"));
-                employee.setName(resultSet.getString("name"));
-                employee.setCity(resultSet.getString("city"));
-                employee.setSalary(resultSet.getDouble("salary"));
-                employee.setPhoneNumber(resultSet.getString("phoneNumber"));
-                employee.setJoinDate(resultSet.getDate("joinDate").toLocalDate());
-
+                Employee employee = dataSetter.setEmployeeData(resultSet);
                 employees.add(employee);
             }
             DBConnection.closeDBConnection();

@@ -1,23 +1,13 @@
 package com.gomarket.supermarket.models;
 
+import com.gomarket.supermarket.controllers.DataSetter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class StatisticsQuery {
-
-    public Employee fillEmployee(ResultSet resultSet) throws SQLException {
-        Employee employee = new Employee();
-        if(resultSet.next()){
-            employee.setId(resultSet.getInt("id"));
-            employee.setName(resultSet.getString("name"));
-            employee.setCity(resultSet.getString("city"));
-            employee.setSalary(resultSet.getDouble("salary"));
-            employee.setPhoneNumber(resultSet.getString("phoneNumber"));
-            employee.setJoinDate(resultSet.getDate("joinDate").toLocalDate());
-        }
-        return employee;
-    }
+    DataSetter dataSetter = new DataSetter();
 
     public ResultSet getQeryResults(String query){
         ResultSet resultSet = null;
@@ -40,7 +30,7 @@ public class StatisticsQuery {
         return count;
     }
 
-    public int maxMin(String compare , String property  , String entity) throws SQLException {
+    public int getMaxOrMin(String compare , String property  , String entity) throws SQLException {
         String query = "SELECT "+ compare +"("+property+") As count FROM "+entity;
         ResultSet resultSet = getQeryResults(query);
         int result = 0;
@@ -52,7 +42,9 @@ public class StatisticsQuery {
     public Employee getOldestEmployee() throws SQLException {
         String query = "SELECT * FROM employee WHERE joindate = (SELECT MIN(joindate) FROM employee)";
         ResultSet resultSet = getQeryResults(query);
-        Employee employee = fillEmployee(resultSet);
+        Employee employee = new Employee();
+        if(resultSet.next())
+          employee = dataSetter.setEmployeeData(resultSet);
         return employee;
     }
 

@@ -1,4 +1,9 @@
 package com.gomarket.supermarket.models;
+
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+
 public class Validator {
 
     public boolean isDouble(String number){
@@ -8,23 +13,30 @@ public class Validator {
             if(temp =='.') dotsCounter++;
             else if(!(temp >='0' && temp <='9')) return false;
         }
-        if(dotsCounter>1) return false;
-        char dot = number.charAt(number.length()-1);
-        if(dot == '.' && dotsCounter >1) return false;
-        return true;
+        return dotsCounter <= 1;
     }
 
     public boolean isDigit(char digit){
-        if(digit >= '0' && digit <='9' ){
-            return true;
-        }
-        return false;
+        return digit >= '0' && digit <= '9';
     }
 
     public boolean isValidDiscountValue(int value){
-        if(value>=0 && value<=100)
-            return true;
-        return false;
+        return value >= 0 && value <= 100;
+    }
+
+
+    public boolean isEmptyData(ComboBox comboBoxe, TextField...textFields){
+        boolean emptyFeilds = comboBoxe.getValue() == null || comboBoxe.getValue().toString().isEmpty();
+        for (TextField textField : textFields) {
+            if (textField.getText() == null || textField.getText().isEmpty()) emptyFeilds = true;
+        }
+        return emptyFeilds;
+    }
+
+    public boolean isEmptyData(DatePicker datePicker, ComboBox comboBoxe, TextField...textFields){
+        boolean emptyFeilds = isEmptyData(comboBoxe,textFields);
+        if(datePicker.getValue() == null ||datePicker.getValue().toString().isEmpty() ) emptyFeilds = true;
+        return emptyFeilds;
     }
 
 }

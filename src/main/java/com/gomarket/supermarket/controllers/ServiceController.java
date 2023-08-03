@@ -1,15 +1,14 @@
 package com.gomarket.supermarket.controllers;
 
 import com.gomarket.supermarket.models.BadInputBlocker;
-import com.gomarket.supermarket.models.ProductCRUD;
+import com.gomarket.supermarket.models.Bill;
+import com.gomarket.supermarket.models.ProductRepository;
 import com.gomarket.supermarket.models.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.print.PrinterJob;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,16 +26,15 @@ public class ServiceController implements Initializable {
     TextField txtSearchedName, txtPrice , txtDiscount, txtNumber, txtTotal;
 
     @FXML
-    TextArea bill;
+    TextArea billArea;
     @FXML
     Label txtWarning;
 
-    ProductCRUD productCRUD = new ProductCRUD();
+    ProductRepository productRepository = new ProductRepository();
     BadInputBlocker badInputBlocker = new BadInputBlocker();
-
     Product selectedProduct = new Product();
-
-
+    DataSetter dataSetter = new DataSetter();
+    Bill bill = new Bill();
 
     int toPrintQuantity;
     double toPrintTotal;
@@ -48,7 +46,7 @@ public class ServiceController implements Initializable {
 
     public void search(){
         prodTable.getItems().clear();
-        prodTable.getItems().addAll(productCRUD.getSerchedProducts(txtSearchedName.getText()));
+        prodTable.getItems().addAll(productRepository.getSearchedProducts(txtSearchedName.getText()));
     }
 
     public void goBack(ActionEvent event) throws IOException {
@@ -56,64 +54,49 @@ public class ServiceController implements Initializable {
     }
 
 
-    public void clickTable(){
+    public void selectProduct(){
         txtWarning.setText("");
         Product product = (Product) prodTable.getSelectionModel().getSelectedItem();
-        txtPrice.setText(product.getPrice()+"");
-        txtDiscount.setText(product.getDiscount()+"");
+        dataSetter.setProductForm(product,txtPrice,txtDiscount);
         selectedProduct = product;
     }
 
-    public void calculateTotal(){
+
+    public void printTotal(){
         if(txtNumber.getText() != null && !txtNumber.getText().isEmpty()){
+
             int wantedQuantity = Integer.parseInt(txtNumber.getText());
-            int availableQuantity = selectedProduct.getNumber();
-            if(availableQuantity >= wantedQuantity){
-                double total = (selectedProduct.getPrice() * wantedQuantity) - (selectedProduct.getDiscount()/100.0 * selectedProduct.getPrice());
-                toPrintTotal = total;
-                toPrintQuantity = wantedQuantity;
-                txtTotal.setText(total+"");
+
+            if(wantedQuantity == 0) {
+               Utility.clearForm(txtNumber,txtTotal);
             }
-            else{
-                txtWarning.setText("Available is "+selectedProduct.getNumber());
+
+            double total = bill.calculateTotal(selectedProduct,wantedQuantity);
+            toPrintTotal = total;
+            toPrintQuantity = wantedQuantity;
+            txtTotal.setText(total+"");
+            if(total == 0 ){
+                dataSetter.setWarning(selectedProduct,txtWarning);
                 Utility.clearForm(txtTotal,txtNumber);
             }
         }
         else {
             Utility.clearForm(txtTotal);
         }
-
-
-
-
     }
 
     public void buy(){
         if(txtNumber.getText()!=null && txtPrice.getText().length()>0 && txtNumber.getText().length()>0){
-            selectedProduct.setNumber(selectedProduct.getNumber() - toPrintQuantity);
-            productCRUD.update(selectedProduct);
-            String billContent = bill.getText().length()>0? bill.getText()+"\n" : "";
-            bill.setText( billContent +
-                    "---------------Bill ---------------"+
-                    "\nProduct Name : " + selectedProduct.getName() +
-                    "\nProduct Price : "+ selectedProduct.getPrice()+
-                    "\n" + "Quantity : "+ toPrintQuantity+
-                    "\nTotal : "        + toPrintTotal
-            );
-
+            selectedProduct.setNumber(selectedProduct.getNumber() - toPrintQuantity); // Updated the quantity of this product
+            productRepository.update(selectedProduct);
+            String billAreaContent = billArea.getText().length() > 0 ? billArea.getText()+"\n" : "";
+            billArea.setText( billAreaContent + bill.generateBill(selectedProduct,toPrintQuantity,toPrintTotal));
             Utility.clearForm(txtPrice,txtTotal,txtDiscount,txtNumber);
         }
     }
 
-
     public void printBillContent() {
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null) {
-            boolean success = job.printPage(bill);
-            if (success) {
-                job.endJob();
-            }
-        }
+       DataPrinter.printBillContent(billArea);
     }
 
     public void refreshServicePage(ActionEvent event) throws IOException {
@@ -124,6 +107,6 @@ public class ServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colProd.setCellValueFactory(new PropertyValueFactory<>("name"));
-        prodTable.setItems(productCRUD.getAllProducts());
+        prodTable.setItems(productRepository.getAllProducts());
     }
 }

@@ -1,14 +1,12 @@
 package com.gomarket.supermarket.controllers;
 import com.gomarket.supermarket.models.BadInputBlocker;
-import com.gomarket.supermarket.models.ProductCRUD;
+import com.gomarket.supermarket.models.ProductRepository;
 import com.gomarket.supermarket.models.Product;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.gomarket.supermarket.models.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,15 +31,16 @@ public class ProductController implements Initializable {
     TableView pTable;
 
 
-    String [] productTypes = {"Food","Fruits","Drinks"};
-    ObservableList olist = FXCollections.observableArrayList(productTypes);
 
-    ProductCRUD productCRUD = new ProductCRUD();
+
+    ProductRepository productRepository = new ProductRepository();
     BadInputBlocker badInputBlocker = new BadInputBlocker();
+    DataSetter dataSetter = new DataSetter();
+    Validator validator = new Validator();
     int prodID;
 
     public void search(){
-        pTable.setItems(productCRUD.getSerchedProducts(btnEnName.getText()));
+        pTable.setItems(productRepository.getSearchedProducts(btnEnName.getText()));
     }
 
     public void preventCharInput(){
@@ -57,47 +56,32 @@ public class ProductController implements Initializable {
 
 
     public void add(){
-        if(badInputBlocker.notEmptyData(txtPType,txtPName,txtPNumber,txtPPrice,txtPDiscount)){
-            System.out.println("not empty data");
-            Product product = new Product();
-            product.setName(txtPName.getText());
-            product.setNumber(Integer.parseInt(txtPNumber.getText()));
-            product.setPrice(Double.parseDouble(txtPPrice.getText()));
-            product.setType(txtPType.getValue()+"");
-            product.setDiscount(Integer.parseInt(txtPDiscount.getText()));
-            productCRUD.insert(product);
-            pTable.setItems(productCRUD.getAllProducts());
+        if(!validator.isEmptyData(txtPType,txtPName,txtPNumber,txtPPrice,txtPDiscount)){
+            Product product = dataSetter.setProductData(txtPType,txtPName,txtPNumber,txtPPrice,txtPDiscount);
+            productRepository.insert(product);
+            pTable.setItems(productRepository.getAllProducts());
             Utility.clearForm(txtPName,txtPNumber,txtPPrice,txtPDiscount);
         }
     }
 
     public void update(){
-        if(badInputBlocker.notEmptyData(txtPType,txtPName,txtPNumber,txtPPrice,txtPDiscount)){
-            Product product = new Product();
-            product.setName(txtPName.getText());
-            product.setNumber(Integer.parseInt(txtPNumber.getText()));
-            product.setPrice(Double.parseDouble(txtPPrice.getText()));
-            product.setType(txtPType.getValue()+"");
-            product.setDiscount(Integer.parseInt(txtPDiscount.getText()));
+        if(!validator.isEmptyData(txtPType,txtPName,txtPNumber,txtPPrice,txtPDiscount)){
+            Product product = dataSetter.setProductData(txtPType,txtPName,txtPNumber,txtPPrice,txtPDiscount);
             product.setId(prodID);
-            productCRUD.update(product);
-            pTable.setItems(productCRUD.getAllProducts());
+            productRepository.update(product);
+            pTable.setItems(productRepository.getAllProducts());
             Utility.clearForm(txtPName,txtPNumber,txtPPrice,txtPDiscount);
         }
     }
     public void delete(){
-        productCRUD.delete(prodID);
-        pTable.setItems(productCRUD.getAllProducts());
+        productRepository.delete(prodID);
+        pTable.setItems(productRepository.getAllProducts());
         Utility.clearForm(txtPName,txtPNumber,txtPPrice,txtPDiscount);
     }
 
     public void selectProductFromTable(){
         Product product = (Product) pTable.getSelectionModel().getSelectedItem();
-        txtPName.setText(product.getName());
-        txtPNumber.setText( product.getNumber()+"");
-        txtPPrice.setText(product.getPrice()+"");
-        txtPDiscount.setText(product.getDiscount()+"");
-        txtPType.setValue(product.getType());
+        dataSetter.setProductForm(product,txtPType,txtPName,txtPNumber,txtPPrice,txtPDiscount);
         prodID = product.getId();
     }
 
@@ -107,14 +91,9 @@ public class ProductController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        txtPType.getItems().addAll(olist);
-        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNumber.setCellValueFactory(new PropertyValueFactory<>("number"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
-        colType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        pTable.setItems(productCRUD.getAllProducts());
+        txtPType.getItems().addAll(dataSetter.setProductTypes());
+        dataSetter.setProductTableColumns(colID,colName,colNumber,colPrice,colType,colDiscount);
+        pTable.setItems(productRepository.getAllProducts());
     }
 
 

@@ -59,7 +59,7 @@
                   <Font size="24.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtNumber" layoutX="341.0" layoutY="328.0" onKeyReleased="#calculateTotal" onKeyTyped="#preventCharInput" prefHeight="62.0" prefWidth="219.0" promptText="Number of items">
+            <TextField fx:id="txtNumber" layoutX="341.0" layoutY="328.0" onKeyReleased="#printTotal" onKeyTyped="#preventCharInput" prefHeight="62.0" prefWidth="219.0" promptText="Number of items">
                <font>
                   <Font size="24.0" />
                </font>
@@ -97,7 +97,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TableView fx:id="prodTable" layoutX="52.0" layoutY="173.0" onMouseClicked="#clickTable" prefHeight="365.0" prefWidth="219.0">
+            <TableView fx:id="prodTable" layoutX="52.0" layoutY="173.0" onMouseClicked="#selectProduct" prefHeight="365.0" prefWidth="219.0">
                <columns>
                   <TableColumn fx:id="colProd" prefWidth="215.00001525878906" text="Products" />
                </columns>
@@ -106,7 +106,7 @@
          </children></Pane>
       <Pane layoutX="529.0" layoutY="-1.0" prefHeight="570.0" prefWidth="401.0">
          <children>
-            <TextArea fx:id="bill" layoutX="59.0" layoutY="172.0" prefHeight="268.0" prefWidth="315.0" style="-fx-background-color: white;">
+            <TextArea fx:id="billArea" layoutX="59.0" layoutY="172.0" prefHeight="268.0" prefWidth="315.0" style="-fx-background-color: white;">
                <font>
                   <Font size="18.0" />
                </font></TextArea>
